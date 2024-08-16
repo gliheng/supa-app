@@ -1,0 +1,28 @@
+{
+  "type": "page",
+  "title": "Scope demo",
+  "data": {
+    "name": "Tom"
+  },
+  "children": [
+    {
+      "type": "text",
+      "template": "Hello, ${name}"
+    },
+    {
+      "type": "service",
+      "style": {
+        "background-color": "darkslategray",
+        "color": "whitesmoke",
+        "padding": "0.6rem"
+      },
+      "data": {
+        "name": "Bill"
+      },
+      "children": {
+        "type": "text",
+        "template": "Hello, ${name}"
+      }
+    }
+  ]
+}

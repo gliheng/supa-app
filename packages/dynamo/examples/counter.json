@@ -1,0 +1,14 @@
+{
+  "type": "page",
+  "title": "Counter demo",
+  "data": {
+    "count": 0
+  },
+  "children": [
+    {
+      "type": "button",
+      "children": "${count}",
+      "onClick": "count += 1"
+    }
+  ]
+}

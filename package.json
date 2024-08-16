@@ -1,0 +1,30 @@
+{
+  "name": "supa-app-launcher",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "prepare": "pnpm run --filter ./packages/react-template build && pnpm run --filter ./packages/vue-template build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@lit/context": "^1.1.0",
+    "@shoelace-style/shoelace": "^2.12.0",
+    "app-creator": "workspace:*",
+    "data-grid": "workspace:*",
+    "lit": "^3.0.2",
+    "react-template": "workspace:*",
+    "supa-app": "workspace:*",
+    "flex-layout": "workspace:*",
+    "tile-layout": "workspace:*",
+    "vue-template": "workspace:*",
+    "dynamo": "workspace:*"
+  },
+  "devDependencies": {
+    "sass": "^1.69.5",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.0"
+  }
+}

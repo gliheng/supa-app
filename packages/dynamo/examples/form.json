@@ -1,0 +1,39 @@
+{
+  "type": "page",
+  "title": "Form demo",
+  "children": {
+    "type": "form",
+    "data": {
+      "name": "Bill",
+      "age": 30
+    },
+    "children": [
+      {
+        "type": "input",
+        "name": "name",
+        "label": "What's your name?",
+        "style": {
+          "display": "block"
+        }
+      },
+      {
+        "type": "input",
+        "style": {
+          "display": "block"
+        },
+        "props": {
+          "name": "age",
+          "type": "number",
+          "label": "What's your age?"
+        }
+      },
+      {
+        "type": "text",
+        "style": {
+          "display": "block"
+        },
+        "template": "${name} is ${age} years old"
+      }
+    ]
+  }
+}
