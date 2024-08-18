@@ -11,10 +11,20 @@ const materials = [
     label: 'Text',
     type: 'text',
   },
+  {
+    label: 'Image',
+    type: 'img',
+  },
 ];
 
 @customElement('material-repository')
 export class MaterialRepository extends LitElement {
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.addEventListener('dragleave', () => this.onHide());
+  }
+
   onDragstart(evt: DragEvent) {
     const type = (evt.target as HTMLElement).getAttribute('data-type');
     if (type) {
@@ -37,6 +47,7 @@ export class MaterialRepository extends LitElement {
       <div >
         ${repeat(materials, (e) => {
           return html`<div
+            class="material-item"
             draggable="true"
             data-type=${e.type}
             @dragstart=${this.onDragstart}
@@ -49,11 +60,15 @@ export class MaterialRepository extends LitElement {
     :host {
       display: block;
       background: white;
+      height: 100%;
     }
     .close-btn {
       position: absolute;
       top: 0;
       right: 0;
+    }
+    .material-item {
+      margin: var(--sl-spacing-small) 0;
     }
   `
 }

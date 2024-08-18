@@ -3,7 +3,7 @@ import { customElement, state } from 'lit/decorators.js'
 import { createRef, ref } from 'lit/directives/ref.js';
 import { SlTabGroup } from '@shoelace-style/shoelace';
 import './components/data-source';
-import './components/component-list';
+import './components/component-tree';
 import './components/material-repository';
 import './components/layout-canvas';
 import './components/props-inspector';
@@ -57,9 +57,9 @@ export class AppCreatorElement extends LitElement {
           ></material-repository>
         </sl-tab-panel>
         <sl-tab-panel name="list">
-          <component-list
+          <component-tree
             @hide=${this.onHideTabContent}
-          ></component-list>
+          ></component-tree>
         </sl-tab-panel>
         <sl-tab-panel name="data-source">
           <data-source
@@ -113,6 +113,8 @@ export class AppCreatorElement extends LitElement {
       box-shadow: var(--sl-shadow-large);
       --padding: var(--sl-spacing-x-small);
     }
-    
+    sl-tab-panel::part(base) {
+      height: 100%;
+    }
   `
 }

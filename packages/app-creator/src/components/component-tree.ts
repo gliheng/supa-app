@@ -2,8 +2,8 @@ import { LitElement, css, html } from 'lit'
 import { customElement } from 'lit/decorators.js'
 
 
-@customElement('component-list')
-export class ComponentList extends LitElement {
+@customElement('component-tree')
+export class ComponentTreeElement extends LitElement {
   onHide() {
     this.dispatchEvent(new CustomEvent('hide'));
   }
@@ -17,7 +17,7 @@ export class ComponentList extends LitElement {
         @click=${this.onHide}
       ></sl-icon-button>
       <div>
-        component list
+        component tree
       </div>
     `;
   }
