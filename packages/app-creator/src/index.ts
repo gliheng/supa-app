@@ -116,5 +116,8 @@ export class AppCreatorElement extends LitElement {
     sl-tab-panel::part(base) {
       height: 100%;
     }
+    props-inspector {
+      z-index: 0;
+    }
   `
 }

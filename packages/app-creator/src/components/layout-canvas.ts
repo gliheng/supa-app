@@ -20,7 +20,7 @@ export class LayoutCanvasElement extends LitElement {
   size = [800, 600]
 
   @state()
-  showGrid = true
+  showGrid = false
 
   onZoomIn() {
     this.scale = Math.min(MAX_SCALE, this.scale + 10);
