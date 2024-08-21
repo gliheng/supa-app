@@ -80,13 +80,14 @@ export class LayoutGridElement extends WindowManagerMixin(LitElement, ['layout']
   @state()
   dividerInfo?: DividerInfo;
 
-  // Convert flex into pixels
-  @state()
-  xPixelRatio = 0;
-  
-  // Convert flex into pixels
-  @state()
-  yPixelRatio = 0;
+  // Cached width
+  width = 0;
+  // Cached height
+  height = 0;
+  // Cached x
+  offsetX = 0;
+  // Cached y
+  offsetY = 0;
 
   // Rects for each slot (pixel value)
   @state()
@@ -122,21 +123,20 @@ export class LayoutGridElement extends WindowManagerMixin(LitElement, ['layout']
     height -= this.padding * 2;
 
     const { rows, cols, slots } = config;
-    this.xPixelRatio = width / cols;
-    this.yPixelRatio = height / rows;
 
     const rects = slots.map(e => {
       return {
-        x: this.colSizes2[e.x] * this.xPixelRatio + this.padding,
-        y:  this.rowSizes2[e.y] * this.yPixelRatio + this.padding,
-        width: (this.colSizes2[e.x + e.w] - this.colSizes2[e.x]) * this.xPixelRatio,
-        height: (this.rowSizes2[e.y + e.h] - this.rowSizes2[e.y]) * this.yPixelRatio,
+        x: this.colSizes2[e.x] * width + this.padding,
+        y:  this.rowSizes2[e.y] * height + this.padding,
+        width: (this.colSizes2[e.x + e.w] - this.colSizes2[e.x]) * width,
+        height: (this.rowSizes2[e.y + e.h] - this.rowSizes2[e.y]) * height,
       };
     });
+
     const hEdges = [];
     const vEdges = [];
-    const hEdgeSet = new Set();
-    const vEdgeSet = new Set();
+    const hEdgeSet = new Set<string>();
+    const vEdgeSet = new Set<string>();
     for (let [i, r] of rects.entries()) {
       const slot = slots[i];
       // top edge
@@ -149,7 +149,7 @@ export class LayoutGridElement extends WindowManagerMixin(LitElement, ['layout']
           pos: r.y,
           start: r.x,
           end: r.x + r.width,
-          raw: [slot.y, slot.x, slot.x + slot.w],
+          raw: [slot.y, slot.x, slot.x + slot.w] as FlexEdge,
         });
       }
       // bottom edge
@@ -162,7 +162,7 @@ export class LayoutGridElement extends WindowManagerMixin(LitElement, ['layout']
           pos: r.y + r.height,
           start: r.x,
           end: r.x + r.width,
-          raw: [slot.y + slot.h, slot.x, slot.x + slot.w],
+          raw: [slot.y + slot.h, slot.x, slot.x + slot.w] as FlexEdge,
         });
       }
       // left edge
@@ -175,7 +175,7 @@ export class LayoutGridElement extends WindowManagerMixin(LitElement, ['layout']
           pos: r.x,
           start: r.y,
           end: r.y + r.height,
-          raw: [slot.x, slot.y, slot.y + slot.h],
+          raw: [slot.x, slot.y, slot.y + slot.h] as FlexEdge,
         });
       }
       // right edge
@@ -188,10 +188,12 @@ export class LayoutGridElement extends WindowManagerMixin(LitElement, ['layout']
           pos: r.x + r.width,
           start: r.y,
           end: r.y + r.height,
-          raw: [slot.x + slot.w, slot.y, slot.y + slot.h],
+          raw: [slot.x + slot.w, slot.y, slot.y + slot.h] as FlexEdge,
         });
       }
     }
+    this.width = width;
+    this.height = height;
     this.hEdges = hEdges;
     this.vEdges = vEdges;
     this.hEdgeSet = hEdgeSet;
@@ -233,9 +235,6 @@ export class LayoutGridElement extends WindowManagerMixin(LitElement, ['layout']
     }
   }
 
-  offsetX = 0;
-  offsetY = 0;
-
   onMouseenter(evt: MouseEvent) {
     const rect = this.getBoundingClientRect();
     this.offsetX = rect.left;
@@ -261,7 +260,7 @@ export class LayoutGridElement extends WindowManagerMixin(LitElement, ['layout']
       this.vEdges,
     );
     if (hEdge || vEdge) {
-      const dividerInfo: DividerInfo = {
+      const dividerInfo: Partial<DividerInfo> = {
         showHorizontal: Boolean(hEdge),
         showVertical: Boolean(vEdge),
       };
@@ -275,8 +274,8 @@ export class LayoutGridElement extends WindowManagerMixin(LitElement, ['layout']
           end++;
         }
         dividerInfo.hPos = hEdge.pos;
-        dividerInfo.hStart = this.colSizes2[start] * this.xPixelRatio + this.padding;
-        dividerInfo.hEnd = this.colSizes2[end] * this.xPixelRatio + this.padding;
+        dividerInfo.hStart = this.colSizes2[start] * this.width + this.padding;
+        dividerInfo.hEnd = this.colSizes2[end] * this.width + this.padding;
         dividerInfo.hEdge = [pos, start, end];
       }
       if (vEdge) {
@@ -289,11 +288,11 @@ export class LayoutGridElement extends WindowManagerMixin(LitElement, ['layout']
           end++;
         }
         dividerInfo.vPos = vEdge.pos;
-        dividerInfo.vStart = this.rowSizes2[start] * this.yPixelRatio + this.padding;
-        dividerInfo.vEnd = this.rowSizes2[end] * this.yPixelRatio + this.padding;
+        dividerInfo.vStart = this.rowSizes2[start] * this.height + this.padding;
+        dividerInfo.vEnd = this.rowSizes2[end] * this.height + this.padding;
         dividerInfo.vEdge = [pos, start, end];
       }
-      this.dividerInfo = dividerInfo;
+      this.dividerInfo = dividerInfo as DividerInfo;
     } else {
       this.dividerInfo = undefined;
     }
@@ -317,38 +316,38 @@ export class LayoutGridElement extends WindowManagerMixin(LitElement, ['layout']
   async onResize(evt: CustomEvent) {
     const { mode, dx, dy, vEdge, hEdge } = evt.detail;
     const newDividerInfo = {
-      ...this.dividerInfo,
+      ...this.dividerInfo as DividerInfo,
     };
     const vPos = vEdge?.[0], hPos = hEdge?.[0];
 
     // calc new flex values from pixel values
     if (mode == DividerMode.horizontal || mode == DividerMode.diagnal) {
-      let v = dy / this.yPixelRatio;
+      let v = dy / this.height * 0.8;
       if (v > 0) {
         v = Math.min(this.rowSizes[hPos], v);
       } else if (v < 0) {
         v = Math.max(-this.rowSizes[hPos-1], v);
       }
-      newDividerInfo.hPos = v * this.yPixelRatio + newDividerInfo.hPos!;
+      newDividerInfo.hPos = v * this.height + newDividerInfo.hPos!;
       this.rowSizes[hPos-1] += v;
       this.rowSizes[hPos] -= v;
     }
     if (mode == DividerMode.vertical || mode == DividerMode.diagnal) {
-      let v = dx / this.xPixelRatio;
+      let v = dx / this.width * 0.8;
       if (v > 0) {
         v = Math.min(this.colSizes[vPos], v);
       } else if (v < 0) {
         v = Math.max(-this.colSizes[vPos-1], v);
       }
-      newDividerInfo.vPos = v * this.xPixelRatio + newDividerInfo.vPos!;
+      newDividerInfo.vPos = v * this.width + newDividerInfo.vPos!;
       this.colSizes[vPos-1] += v;
       this.colSizes[vPos] -= v;
     }
     if (newDividerInfo?.showHorizontal && newDividerInfo?.showVertical) {
-      newDividerInfo.vStart = this.rowSizes2[vEdge[1]] * this.yPixelRatio + this.padding;
-      newDividerInfo.vEnd = this.rowSizes2[vEdge[2]] * this.yPixelRatio + this.padding;
-      newDividerInfo.hStart = this.colSizes2[hEdge[1]] * this.xPixelRatio + this.padding;
-      newDividerInfo.hEnd = this.colSizes2[hEdge[2]] * this.xPixelRatio + this.padding;
+      newDividerInfo.vStart = this.rowSizes2[vEdge[1]] * this.height + this.padding;
+      newDividerInfo.vEnd = this.rowSizes2[vEdge[2]] * this.height + this.padding;
+      newDividerInfo.hStart = this.colSizes2[hEdge[1]] * this.width + this.padding;
+      newDividerInfo.hEnd = this.colSizes2[hEdge[2]] * this.width + this.padding;
     }
     this.dividerInfo = newDividerInfo;
 
@@ -563,9 +562,9 @@ function gridSizes(n: number, sizes?: number[]) {
   const arr = [];
   for (let i = 0; i < n; i++) {
     if (sizes) {
-      arr.push(sizes[i] * n / total);
+      arr.push(sizes[i] / total);
     } else {
-      arr.push(1);
+      arr.push(1 / n);
     }
   }
   return arr;
