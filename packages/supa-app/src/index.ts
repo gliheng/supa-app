@@ -83,8 +83,11 @@ export class SupaAppElement extends LitElement {
       grid-template-rows: 40px auto;
       grid-template-areas:
        "appbar"
-       "main"
-      }
+       "main";
+    }
+    :host([hide-app-bar]) {
+      grid-template-rows: auto;
+      grid-template-areas: "main";
     }
     sp-app-bar {
       grid-area: appbar;
