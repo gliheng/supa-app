@@ -20,9 +20,6 @@ importers:
       data-grid:
         specifier: workspace:*
         version: link:packages/data-grid
-      dynamo:
-        specifier: workspace:*
-        version: link:packages/dynamo
       flex-layout:
         specifier: workspace:*
         version: link:packages/flex-layout
@@ -35,6 +32,9 @@ importers:
       supa-app:
         specifier: workspace:*
         version: link:packages/supa-app
+      supa-blocks:
+        specifier: workspace:*
+        version: link:packages/supa-blocks
       tile-layout:
         specifier: workspace:*
         version: link:packages/tile-layout
@@ -93,34 +93,6 @@ importers:
       nanoid:
         specifier: ^5.0.3
         version: 5.0.4
-
-  packages/dynamo:
-    dependencies:
-      '@lit/context':
-        specifier: ^1.1.0
-        version: 1.1.0
-      '@shoelace-style/shoelace':
-        specifier: ^2.12.0
-        version: 2.12.0(@types/react@18.2.45)
-      lit:
-        specifier: ^3.1.0
-        version: 3.1.0
-      lodash-es:
-        specifier: ^4.17.21
-        version: 4.17.21
-      mitt:
-        specifier: ^3.0.1
-        version: 3.0.1
-      moment:
-        specifier: ^2.29.4
-        version: 2.30.1
-      nanoid:
-        specifier: ^5.0.3
-        version: 5.0.4
-    devDependencies:
-      '@types/lodash-es':
-        specifier: ^4.17.12
-        version: 4.17.12
 
   packages/flex-layout:
     dependencies:
@@ -214,6 +186,34 @@ importers:
       '@types/react-dom':
         specifier: ^18.2.17
         version: 18.2.18
+
+  packages/supa-blocks:
+    dependencies:
+      '@lit/context':
+        specifier: ^1.1.0
+        version: 1.1.0
+      '@shoelace-style/shoelace':
+        specifier: ^2.12.0
+        version: 2.12.0(@types/react@18.2.45)
+      lit:
+        specifier: ^3.1.0
+        version: 3.1.0
+      lodash-es:
+        specifier: ^4.17.21
+        version: 4.17.21
+      mitt:
+        specifier: ^3.0.1
+        version: 3.0.1
+      moment:
+        specifier: ^2.29.4
+        version: 2.30.1
+      nanoid:
+        specifier: ^5.0.3
+        version: 5.0.4
+    devDependencies:
+      '@types/lodash-es':
+        specifier: ^4.17.12
+        version: 4.17.12
 
   packages/tile-layout:
     dependencies:
@@ -574,25 +574,21 @@ packages:
     resolution: {integrity: sha512-7Pk/5mO11JW/cH+a8lL/i0ZxmRGrbpYqN0VwO2DHhU+SJWWOH2zE1RAcPaj8KqiwC8DCDIJOSxjV9+9lLb6aeA==}
     cpu: [arm64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-arm64-musl@4.5.2':
     resolution: {integrity: sha512-KrRnuG5phJx756e62wxvWH2e+TK84MP2IVuPwfge+GBvWqIUfVzFRn09TKruuQBXzZp52Vyma7FjMDkwlA9xpg==}
     cpu: [arm64]
     os: [linux]
-    libc: [musl]
 
   '@rollup/rollup-linux-x64-gnu@4.5.2':
     resolution: {integrity: sha512-My+53GasPa2D2tU5dXiyHYwrELAUouSfkNlZ3bUKpI7btaztO5vpALEs3mvFjM7aKTvEbc7GQckuXeXIDKQ0fg==}
     cpu: [x64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-x64-musl@4.5.2':
     resolution: {integrity: sha512-/f0Q6Sc+Vw54Ws6N8fxaEe4R7at3b8pFyv+O/F2VaQ4hODUJcRUcCBJh6zuqtgQQt7w845VTkGLFgWZkP3tUoQ==}
     cpu: [x64]
     os: [linux]
-    libc: [musl]
 
   '@rollup/rollup-win32-arm64-msvc@4.5.2':
     resolution: {integrity: sha512-NCKuuZWLht6zj7s6EIFef4BxCRX1GMr83S2W4HPCA0RnJ4iHE4FS1695q6Ewoa6A9nFjJe1//yUu0kgBU07Edw==}

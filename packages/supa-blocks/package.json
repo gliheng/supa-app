@@ -1,5 +1,5 @@
 {
-  "name": "dynamo",
+  "name": "supa-blocks",
   "version": "1.0.0",
   "description": "",
   "module": "src/index.ts",

@@ -1,15 +1,15 @@
 import { LitElement, css, html } from 'lit'
 import { customElement } from 'lit/decorators.js'
 import { createRef, ref } from 'lit/directives/ref.js';
-import { render, Descriptor } from 'dynamo';
+import { render, Descriptor } from 'supa-blocks';
 import json from './demo.json';
 import counter from './counter.json';
 import jsonScope from './scope.json';
 import jsonForm from './form.json';
 import jsonDynamicForm from './dynamic-form.json';
 
-@customElement('dynamo-demo')
-export class DynamoDemo extends LitElement {
+@customElement('blocks-demo')
+export class BlocksDemo extends LitElement {
   renderUI(json: Descriptor, el?: Element) {
     if (el) {
       render(json, el as HTMLElement);
@@ -34,9 +34,9 @@ export class DynamoDemo extends LitElement {
 
 export const examples = [
   {
-    name: 'DynamoDemo',
-    label: 'Dynamo demo',
-    element: 'dynamo-demo',
+    name: 'BlocksDemo',
+    label: 'Blocks demo',
+    element: 'blocks-demo',
     width: 800,
     height: 600,
   },
@@ -44,6 +44,6 @@ export const examples = [
 
 declare global {
   interface HTMLElementTagNameMap {
-    'dynamo-demo': DynamoDemo;
+    'blocks-demo': BlocksDemo;
   }
 }

@@ -20,7 +20,7 @@
     "flex-layout": "workspace:*",
     "tile-layout": "workspace:*",
     "vue-template": "workspace:*",
-    "dynamo": "workspace:*"
+    "supa-blocks": "workspace:*"
   },
   "devDependencies": {
     "sass": "^1.69.5",
