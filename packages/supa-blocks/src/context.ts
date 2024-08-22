@@ -10,7 +10,7 @@ export class DataController implements ReactiveController {
 
   constructor(public host: ReactiveControllerHost) {
     host.addController(this);
-    this.host.contextData = {}
+    this.host.data = {}
   }
   track(el: HTMLElement, ...keys: string[]) {
     keys.forEach((key) => {
@@ -27,7 +27,7 @@ export class DataController implements ReactiveController {
   hostDisconnected() {
   }
   update(name: string, val: any) {
-    this.host.contextData[name] = val;
+    this.host.data[name] = val;
     const set = this.deps.get(name);
     if (set) {
       for (const el of set) {
@@ -36,16 +36,27 @@ export class DataController implements ReactiveController {
     }
   }
   get(key: string) {
-    return this.host.contextData[key];
+    return this.host.data[key] ?? this.host.parentDataCtrl?.get(key);
   }
   interpolate(tmpl: string, el: HTMLElement): [string, any[]] {
     const values: any[] = [];
-    return [tmpl.replace(/\$\{([\w]+)\}/g, (match, name) => {
+    return [tmpl.replace(/\{([\w]+)\}/g, (match, name) => {
       this.track(el, name);
-      const val = this.get(name) ?? this.host.parentDataCtrl?.get(name)
+      const val = this.get(name);
       values.push(val);
       return val ?? '';
     }), values];
+  }
+  eval(code: string) {
+    Function('rt', 'with (rt) {' + code + '}')({
+      set: (k: string, v: any) => {
+        this.update(k, v);
+      },
+      get: (k: string) => {
+        return this.get(k);
+      },
+    });
+    console.log('Running code', code);
   }
 }
 

@@ -32,7 +32,7 @@
         "style": {
           "display": "block"
         },
-        "template": "${name} is ${age} years old"
+        "template": "{name} is {age} years old"
       }
     ]
   }

@@ -7,7 +7,7 @@
   "children": [
     {
       "type": "text",
-      "template": "Hello, ${name}"
+      "template": "Hello, {name}"
     },
     {
       "type": "service",
@@ -21,7 +21,7 @@
       },
       "children": {
         "type": "text",
-        "template": "Hello, ${name}"
+        "template": "Hello, {name}"
       }
     }
   ]

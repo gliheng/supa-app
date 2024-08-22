@@ -7,8 +7,11 @@
   "children": [
     {
       "type": "button",
-      "children": "${count}",
-      "onClick": "count += 1"
+      "children": {
+        "type": "text",
+        "template": "{count}"
+      },
+      "onClick": "set('count', get('count') + 1)"
     }
   ]
 }

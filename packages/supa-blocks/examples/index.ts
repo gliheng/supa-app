@@ -3,9 +3,9 @@ import { customElement } from 'lit/decorators.js'
 import { createRef, ref } from 'lit/directives/ref.js';
 import { render, Descriptor } from 'supa-blocks';
 import json from './demo.json';
-import counter from './counter.json';
 import jsonScope from './scope.json';
 import jsonForm from './form.json';
+import counter from './counter.json';
 import jsonDynamicForm from './dynamic-form.json';
 
 @customElement('blocks-demo')
@@ -17,13 +17,13 @@ export class BlocksDemo extends LitElement {
   }
 
   render() {
+    // <div ${ref(this.renderUI.bind(this, jsonDynamicForm as unknown as Descriptor))}></div>    
     return html`
       <div ${ref(this.renderUI.bind(this, json as unknown as Descriptor))}></div>
       <div ${ref(this.renderUI.bind(this, jsonScope as unknown as Descriptor))}></div>
-      <div ${ref(this.renderUI.bind(this, counter as unknown as Descriptor))}></div>
       <div ${ref(this.renderUI.bind(this, jsonForm as unknown as Descriptor))}></div>
-      <div ${ref(this.renderUI.bind(this, jsonDynamicForm as unknown as Descriptor))}></div>
-    `;
+      <div ${ref(this.renderUI.bind(this, counter as unknown as Descriptor))}></div>
+      `;
   }
   static styles = css`
     :host {
