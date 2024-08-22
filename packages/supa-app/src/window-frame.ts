@@ -512,11 +512,11 @@ export class WindowFrameElement extends LitElement {
     main {
       --window-frame-padding: 10px;
       flex: 1;
-      overflow: auto;
       position: relative;
     }
     main > * {
       position: absolute;
+      overflow: auto;
       inset: 0;
     }
   `;
