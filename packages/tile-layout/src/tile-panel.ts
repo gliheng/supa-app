@@ -54,8 +54,8 @@ export class TilePanel extends LitElement {
   }
 
   onPanMove = (evt: PointerEvent) => {
-    this._offsetLeft += evt.movementX;
-    this._offsetTop += evt.movementY;
+    this._offsetLeft += evt.movementX * 0.8;
+    this._offsetTop += evt.movementY * 0.8;
     this.style.transform = `translate(${this._offsetLeft}px, ${this._offsetTop}px)`;
     this.manager.onPan(this._offsetLeft + this._startLeft, this._offsetTop + this._startTop);
   }
@@ -90,8 +90,8 @@ export class TilePanel extends LitElement {
   }
 
   onResizeMove = (evt: PointerEvent) => {
-    this._newWidth = Math.max(this._newWidth + evt.movementX, 0);
-    this._newHeight = Math.max(this._newHeight + evt.movementY, 0);
+    this._newWidth = Math.max(this._newWidth + evt.movementX * 0.8, 0);
+    this._newHeight = Math.max(this._newHeight + evt.movementY * 0.8, 0);
     this.style.width = `${this._newWidth}px`;
     this.style.height = `${this._newHeight}px`;
     this.manager.onResize(this._newWidth, this._newHeight);
