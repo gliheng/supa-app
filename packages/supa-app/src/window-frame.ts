@@ -214,12 +214,14 @@ export class WindowFrameElement extends LitElement {
     el.releasePointerCapture(evt.pointerId);
   }
 
-  private resizeSide: string = '';
+  @state()
+  resizeSide: string = '';
+
   startResize = (evt: PointerEvent) => {
     if (evt.button != 0) return;
 
     evt.preventDefault();
-    this.updateContainerSize();
+    // this.updateContainerSize();
     if (this.snapPoints) {
       this._snapPoints = this.snapPoints(this.id);
     }
@@ -332,6 +334,7 @@ export class WindowFrameElement extends LitElement {
       >
         ${when(!this.controlled, () => html`
           <div class="mouse-region"
+            data-side=${this.resizeSide}
             @pointerdown="${this.startResize}"
             @pointerup="${this.stopResize}"
           >
@@ -435,23 +438,44 @@ export class WindowFrameElement extends LitElement {
       background: transparent;
       pointer-events: all;
     }
+    [data-side="w"] {
+      cursor: ew-resize;
+    }
+    [data-side="e"] {
+      cursor: ew-resize;
+    }
+    [data-side="n"] {
+      cursor: ns-resize;
+    }
+    [data-side="s"] {
+      cursor: ns-resize;
+    }
+    [data-side="nw"] {
+      cursor: nwse-resize;
+    }
+    [data-side="ne"] {
+      cursor: nesw-resize;
+    }
+    [data-side="sw"] {
+      cursor: nesw-resize;
+    }
+    [data-side="se"] {
+      cursor: nwse-resize;
+    }
     .mouse-region div[data-side="w"] {
       top: 0;
       left: 0;
       width: var(--size);
-      cursor: ew-resize;
     }
     .mouse-region div[data-side="e"] {
       top: 0;
       right: 0;
       width: var(--size);
-      cursor: ew-resize;
     }
     .mouse-region div[data-side="n"] {
       top: 0;
       left: 0;
       height: var(--size);
-      cursor: ns-resize;
     }
     .mouse-region div[data-side="s"] {
       bottom: 0;
@@ -469,22 +493,18 @@ export class WindowFrameElement extends LitElement {
     .mouse-region div[data-side="nw"] {
       top: 0;
       left: 0;
-      cursor: nwse-resize;
     }
     .mouse-region div[data-side="ne"] {
       top: 0;
       right: 0;
-      cursor: nesw-resize;
     }
     .mouse-region div[data-side="sw"] {
       bottom: 0;
       left: 0;
-      cursor: nesw-resize;
     }
     .mouse-region div[data-side="se"] {
       bottom: 0;
       right: 0;
-      cursor: nwse-resize;
     }
 
     header {
