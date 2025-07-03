@@ -3,10 +3,10 @@ import { customElement, property, state } from 'lit/decorators.js'
 import { provide, consume } from '@lit/context';
 import { windowContext, WindowManager } from './window-context';
 import { Library, Layouts } from './config';
+import { when } from 'lit/directives/when.js';
 import './app-bar';
 import './wallpaper';
 import './window-area';
-import { when } from 'lit/directives/when.js';
 
 @customElement('sp-supa-app')
 export class SupaAppElement extends LitElement {

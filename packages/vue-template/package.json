@@ -5,6 +5,7 @@
   "type": "module",
   "module": "./dist/lib.js",
   "exports": {
+    "./examples": "./examples/index.ts",
     ".": "./dist/lib.js",
     "./*": "./dist/*"
   },
