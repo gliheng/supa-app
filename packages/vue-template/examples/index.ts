@@ -3,7 +3,7 @@ import { createWrapper } from 'supa-app/utils';
 createWrapper({
   name: 'vue-template',
   type: 'vue',
-  css: import('vue-template/style.css?inline'),
+  css: import('vue-template/lib.css?inline'),
   component: import('vue-template'),
 });
 

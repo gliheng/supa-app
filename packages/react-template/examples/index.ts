@@ -3,7 +3,7 @@ import { createWrapper } from 'supa-app/utils';
 createWrapper({
   name: 'react-template',
   type: 'react',
-  css: import('react-template/style.css?inline'),
+  css: import('react-template/lib.css?inline'),
   component: import('react-template'),
 });
 
